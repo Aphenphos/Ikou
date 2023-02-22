@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: gray;
+}
+
+canvas {
+  height: 100%;
+  width: 100%;
+}
+
+#ui {
+  position: absolute;
+  color: white;
+}
