@@ -1,10 +1,47 @@
 import "./style.css";
-import { processAudio } from "./js/audio";
-import animate from "./js/graphics";
+import parseAudio, { processAudio } from "./js/audio";
+import animate, {
+  createBars,
+  generate,
+  updateBarColor,
+  updateBars,
+} from "./js/graphics";
 
-//Grab audio
+export let colorHex = "#FFFFFF";
+const updaters = {
+  bars: [updateBars, createBars, updateBarColor],
+  torus: "",
+};
+
+const color = document.getElementById("color-picker");
+color.addEventListener("input", (e) => {
+  colorHex = e.currentTarget.value;
+  const updateFuncs = updateObj(shapeP);
+
+  updateColor(updateFuncs[2], colorHex);
+});
+
+const shape = document.getElementById("shape");
+let shapeP = "bars";
+shape.addEventListener("change", (e) => {
+  shapeP = e.currentTarget.value;
+  updateObj(shapeP);
+});
+
+export let updateFunc = updateBars;
 const input = document.getElementById("audio-up");
 input.addEventListener("change", (e) => {
   processAudio(e.currentTarget.files[0]);
+  const params = updateObj(shapeP);
+  generate(params[1]);
+  updateFunc = params[0];
+  parseAudio();
 });
 animate();
+
+function updateObj(shapeP) {
+  return updaters[shapeP];
+}
+function updateColor(updateColorFunc, colorHex) {
+  updateColorFunc(colorHex);
+}

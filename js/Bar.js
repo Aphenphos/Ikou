@@ -1,12 +1,12 @@
 import { BoxGeometry, Group, Mesh, MeshBasicMaterial } from "three";
 
-const material = new MeshBasicMaterial({
-  color: "purple",
-});
 class Bar {
   static bars = new Group();
-  constructor(x) {
+  constructor(x, colorHex) {
     const geometry = new BoxGeometry(1, 1, 1);
+    const material = new MeshBasicMaterial({
+      color: colorHex,
+    });
     const bar = new Mesh(geometry, material);
     bar.position.x = x;
     Bar.bars.add(bar);

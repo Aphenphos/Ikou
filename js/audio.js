@@ -1,4 +1,4 @@
-import { updateBars } from "./graphics";
+import { updateFunc } from "../main";
 
 const audioContext = new window.AudioContext();
 const audioAnalyser = audioContext.createAnalyser();
@@ -17,11 +17,10 @@ export function processAudio(source) {
 
   const bufferLength = audioAnalyser.frequencyBinCount;
   dataPoints = new Uint8Array(bufferLength);
-  parseAudio();
 }
 
 export default function parseAudio() {
   requestAnimationFrame(parseAudio);
   audioAnalyser.getByteFrequencyData(dataPoints);
-  updateBars(dataPoints);
+  updateFunc(dataPoints);
 }
