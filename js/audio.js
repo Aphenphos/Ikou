@@ -2,7 +2,7 @@ import { updateFunc } from "../main";
 
 const audioContext = new window.AudioContext();
 const audioAnalyser = audioContext.createAnalyser();
-audioAnalyser.fftSize = 128;
+audioAnalyser.fftSize = 256;
 const HTMLAudio = document.querySelector("audio");
 let dataPoints;
 
