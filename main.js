@@ -51,6 +51,7 @@ input.addEventListener("change", (e) => {
   const params = updateObj(shapeP);
   generate(params[1]);
   updateFunc = params[0];
+  handleStars(genStars);
   parseAudio();
 });
 animate();
