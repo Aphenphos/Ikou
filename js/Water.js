@@ -6,7 +6,6 @@ import {
   PlaneGeometry,
   TextureLoader,
 } from "three";
-const textureLoader = new TextureLoader();
 
 class Water {
   static water = new Group();

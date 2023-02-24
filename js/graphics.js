@@ -80,8 +80,8 @@ const camera = new PerspectiveCamera(
   200
 );
 // ____WATER_________________
-export const createWater = (colorHex) => {
-  const ambient = new AmbientLight("white", 1000);
+export const createWater = () => {
+  const ambient = new AmbientLight(colorHex, 1000);
   scene.add(ambient);
 
   Water.water = new Group();
@@ -124,6 +124,8 @@ export const updateWater = (dataPoints) => {
 export const updateWaterColor = (colorHex) => {
   Water.water.children[0].material.color.set(colorHex);
   Water.water.children[1].material.color.set(colorHex);
+  Water.water.children[0].material.needsUpdate = true;
+  Water.water.children[1].material.needsUpdate = true;
 };
 //________
 let starGroup = new Group();
