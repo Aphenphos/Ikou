@@ -3,17 +3,23 @@ import parseAudio, { processAudio } from "./js/audio";
 import animate, {
   createBars,
   createKnots,
+  createWater,
   generate,
+  handleStars,
   updateBarColor,
   updateBars,
   updateKnotColor,
   updateKnots,
+  updateWater,
+  updateWaterColor,
 } from "./js/graphics";
 
 export let colorHex = "#FFFFFF";
+let genStars = false;
 const updaters = {
   bars: [updateBars, createBars, updateBarColor],
   torus: [updateKnots, createKnots, updateKnotColor],
+  water: [updateWater, createWater, updateWaterColor],
 };
 
 const color = document.getElementById("color-picker");
@@ -29,10 +35,15 @@ let shapeP = "bars";
 shape.addEventListener("change", (e) => {
   shapeP = e.currentTarget.value;
   const params = updateObj(shapeP);
-  generate(params[1]);
+  generate(params[1], genStars);
   updateFunc = params[0];
 });
 
+const stars = document.getElementById("stars-toggle");
+stars.addEventListener("click", () => {
+  genStars = !genStars;
+  handleStars(genStars);
+});
 export let updateFunc = updateBars;
 const input = document.getElementById("audio-up");
 input.addEventListener("change", (e) => {

@@ -1,20 +1,22 @@
 import {
-  Color,
-  DoubleSide,
+  AmbientLight,
   Group,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
-  PlaneGeometry,
+  PointLight,
   Scene,
+  SphereGeometry,
   TorusKnotGeometry,
-  Vector3,
   WebGLRenderer,
 } from "three";
 import { colorHex } from "../main";
 import Bar from "./Bar";
 import TorusKnot from "./TorusKnot";
+import { getRandomNumber } from "./utils";
+import Water from "./Water";
 const scene = new Scene();
+
 // Bars --------------------
 export async function createBars() {
   Bar.bars = new Group();
@@ -75,8 +77,78 @@ const camera = new PerspectiveCamera(
   90,
   window.innerWidth / window.innerHeight,
   0.1,
-  100
+  200
 );
+// ____WATER_________________
+export const createWater = (colorHex) => {
+  const ambient = new AmbientLight("white", 1000);
+  scene.add(ambient);
+
+  Water.water = new Group();
+  new Water(colorHex, -10);
+  new Water(colorHex, 30);
+  scene.add(Water.water);
+};
+export const updateWater = (dataPoints) => {
+  const count = 240;
+  let dataP = 0;
+  let round = -2;
+  while (dataP < 60) {
+    for (let i = 0; i < count; i++) {
+      if (i % 4 === 0) {
+        dataP++;
+        round = -2;
+      }
+
+      const xBottom =
+        Water.water.children[0].geometry.attributes.position.getX(i);
+      const xsinBottom = Math.sin(xBottom - dataPoints[dataP] / 15);
+      Water.water.children[0].geometry.attributes.position.setZ(
+        i,
+        xsinBottom + round / 20
+      );
+      const xTop = Water.water.children[1].geometry.attributes.position.getX(i);
+      const xsinTop = Math.sin(xTop + dataPoints[dataP] / 15);
+      Water.water.children[1].geometry.attributes.position.setZ(
+        i,
+        xsinTop + round / 20
+      );
+      round++;
+    }
+  }
+  Water.water.children[0].geometry.computeVertexNormals();
+  Water.water.children[0].geometry.attributes.position.needsUpdate = true;
+  Water.water.children[1].geometry.computeVertexNormals();
+  Water.water.children[1].geometry.attributes.position.needsUpdate = true;
+};
+export const updateWaterColor = (colorHex) => {
+  Water.water.children[0].material.color.set(colorHex);
+  Water.water.children[1].material.color.set(colorHex);
+};
+//________
+let starGroup = new Group();
+export const handleStars = (change) => {
+  if (change === true) {
+    starGroup = new Group();
+    for (let i = 0; i < 100; i++) {
+      const geometry = new SphereGeometry(0.25);
+      const material = new MeshBasicMaterial({
+        color: "white",
+      });
+      const star = new Mesh(geometry, material);
+      const randomZ = getRandomNumber(-60, -50);
+      const randomX = getRandomNumber(-150, 300);
+      const randomY = getRandomNumber(-110, 80);
+      star.position.z = randomZ;
+      star.position.x = randomX;
+      star.position.y = randomY;
+      starGroup.add(star);
+    }
+    scene.add(starGroup);
+  } else {
+    scene.remove(starGroup);
+  }
+};
 camera.position.z = 45;
 camera.position.x = 60;
 camera.position.y = 10;
@@ -86,11 +158,18 @@ const renderer = new WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-export function generate(shapeGenFunc) {
+export function generate(shapeGenFunc, stars) {
   scene.clear();
+  handleStars(stars);
   shapeGenFunc();
 }
 
+window.addEventListener("resize", onWindowResize, false);
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
 export default function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
