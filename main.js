@@ -3,6 +3,7 @@ import parseAudio, { processAudio } from "./js/audio";
 import animate, {
   createBars,
   createKnots,
+  createPulse,
   createWater,
   generate,
   handleStars,
@@ -10,6 +11,7 @@ import animate, {
   updateBars,
   updateKnotColor,
   updateKnots,
+  updatePulse,
   updateWater,
   updateWaterColor,
 } from "./js/graphics";
@@ -20,6 +22,7 @@ const updaters = {
   bars: [updateBars, createBars, updateBarColor],
   torus: [updateKnots, createKnots, updateKnotColor],
   water: [updateWater, createWater, updateWaterColor],
+  pulse: [updatePulse, createPulse, ""],
 };
 
 const color = document.getElementById("color-picker");

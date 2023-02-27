@@ -12,13 +12,18 @@ import {
 } from "three";
 import { colorHex } from "../main";
 import Bar from "./Bar";
+import Pulse from "./Pulse";
 import TorusKnot from "./TorusKnot";
-import { getRandomNumber } from "./utils";
+import { getAverage, getRandomNumber } from "./utils";
 import Water from "./Water";
 const scene = new Scene();
 
 // Bars --------------------
 export async function createBars() {
+  camera.position.z = 45;
+  camera.position.x = 60;
+  camera.position.y = 10;
+  camera.lookAt(60, 0, 0);
   Bar.bars = new Group();
   let pos = 0;
   for (let i = 0; i < 63; i++) {
@@ -44,6 +49,10 @@ export const updateBarColor = (colorHex) => {
 //TorusKnot __________
 //add smallerknots in thr center
 export const createKnots = () => {
+  camera.position.z = 45;
+  camera.position.x = 60;
+  camera.position.y = 10;
+  camera.lookAt(60, 0, 0);
   let pos = 60;
   let scale = 25;
   TorusKnot.knots = new Group();
@@ -81,6 +90,10 @@ const camera = new PerspectiveCamera(
 );
 // ____WATER_________________
 export const createWater = () => {
+  camera.position.z = 45;
+  camera.position.x = 60;
+  camera.position.y = 10;
+  camera.lookAt(60, 0, 0);
   const ambient = new AmbientLight(colorHex, 1000);
   scene.add(ambient);
 
@@ -102,6 +115,7 @@ export const updateWater = (dataPoints) => {
 
       const xBottom =
         Water.water.children[0].geometry.attributes.position.getX(i);
+      console.log(xBottom);
       const xsinBottom = Math.sin(xBottom - dataPoints[dataP] / 12);
       Water.water.children[0].geometry.attributes.position.setZ(
         i,
@@ -151,6 +165,39 @@ export const handleStars = (change) => {
     scene.remove(starGroup);
   }
 };
+//__________________________
+export const createPulse = () => {
+  camera.position.z = 45;
+  camera.position.x = 0;
+  camera.position.y = 0;
+  camera.lookAt(0, 0, 0);
+  Pulse.pulseG = new Group();
+  new Pulse(0, colorHex);
+  new Pulse(0, colorHex);
+  scene.add(Pulse.pulseG);
+  console.log(Pulse.initials);
+};
+
+export const updatePulse = (dataPoints) => {
+  const avg = getAverage(dataPoints);
+  Pulse.pulseG.children[0].scale.x = 11;
+  Pulse.pulseG.children[0].scale.y = 11;
+  Pulse.pulseG.children[0].scale.z = 11;
+  // Pulse.pulseG.children[1].rotation.y += 0.015;
+  // small;
+  Pulse.pulseG.children[1].scale.x = avg / 25;
+  Pulse.pulseG.children[1].scale.y = avg / 25;
+  Pulse.pulseG.children[1].scale.z = avg / 25;
+
+  const axes = 81;
+  for (let i = 0; i < axes; i++) {
+    const curX = Pulse.pulseG.children[1].geometry.attributes.position.getX(i);
+    Pulse.pulseG.children[1].geometry.attributes.position.setX(curX * 10);
+  }
+  Pulse.pulseG.children[1].geometry.attributes.position.needsUpdate = true;
+  Pulse.pulseG.children[0].geometry.attributes.position.needsUpdate = true;
+};
+//_____________________________
 camera.position.z = 45;
 camera.position.x = 60;
 camera.position.y = 10;

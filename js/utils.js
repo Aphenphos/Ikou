@@ -9,3 +9,12 @@ export function getRandomNumber(min, max) {
 
   return randomWithinRange;
 }
+
+export function getAverage(arr) {
+  let sum = 0;
+  const arrleng = arr.length;
+  for (let i = 0; i < arrleng; i++) {
+    sum = sum + arr[i];
+  }
+  return sum / arrleng;
+}
