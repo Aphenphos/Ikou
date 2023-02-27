@@ -111,7 +111,7 @@ export const updateWater = (dataPoints) => {
       const xsinTop = Math.sin(xTop + dataPoints[dataP] / 10);
       Water.water.children[1].geometry.attributes.position.setZ(
         i,
-        xsinTop + round / 20
+        xsinTop - round / 20
       );
       round++;
     }
