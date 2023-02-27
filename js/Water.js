@@ -10,7 +10,7 @@ import {
 class Water {
   static water = new Group();
   constructor(colorHex, y) {
-    const geometry = new PlaneGeometry(100, 100, 8, 8);
+    const geometry = new PlaneGeometry(150, 200, 8, 8);
     const material = new MeshBasicMaterial({
       wireframe: true,
       color: colorHex,
