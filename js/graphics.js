@@ -171,7 +171,6 @@ export const createPulse = () => {
   new Pulse(0, colorHex);
   new Pulse(0, colorHex);
   scene.add(Pulse.pulseG);
-  console.log(Pulse.initials);
 };
 
 export const updatePulse = (dataPoints) => {

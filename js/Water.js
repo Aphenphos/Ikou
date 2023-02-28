@@ -20,7 +20,6 @@ class Water {
     water.rotation.x = 1.57;
     water.position.y = y;
     water.position.z = -17;
-    console.log(geometry);
 
     Water.water.add(water);
   }
