@@ -1,5 +1,4 @@
 import { updateFunc } from "../main";
-import { getAverage } from "./utils";
 
 const audioContext = new window.AudioContext();
 const audioAnalyser = audioContext.createAnalyser();

@@ -10,7 +10,7 @@ import {
 class Water {
   static water = new Group();
   constructor(colorHex, y) {
-    const geometry = new PlaneGeometry(150, 200, 8, 8);
+    const geometry = new PlaneGeometry(150, 200, 13, 13);
     const material = new MeshBasicMaterial({
       wireframe: true,
       color: colorHex,
@@ -20,6 +20,7 @@ class Water {
     water.rotation.x = 1.57;
     water.position.y = y;
     water.position.z = -17;
+    console.log(geometry);
 
     Water.water.add(water);
   }

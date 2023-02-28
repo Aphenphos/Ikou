@@ -12,6 +12,7 @@ import animate, {
   updateKnotColor,
   updateKnots,
   updatePulse,
+  updatePulseColor,
   updateWater,
   updateWaterColor,
 } from "./js/graphics";
@@ -22,7 +23,7 @@ const updaters = {
   bars: [updateBars, createBars, updateBarColor],
   torus: [updateKnots, createKnots, updateKnotColor],
   water: [updateWater, createWater, updateWaterColor],
-  pulse: [updatePulse, createPulse, ""],
+  pulse: [updatePulse, createPulse, updatePulseColor],
 };
 
 const color = document.getElementById("color-picker");
